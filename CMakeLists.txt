@@ -5,6 +5,7 @@ project(
   VERSION 0.0.0
   DESCRIPTION "Fix source codes formatting in your CMake project "
   HOMEPAGE_URL https://github.com/threeal/FixFormat.cmake
+  LANGUAGES NONE
 )
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
