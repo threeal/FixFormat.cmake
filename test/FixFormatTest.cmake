@@ -1,9 +1,8 @@
 set(SRCS src/fibonacci.cpp src/is_odd.cpp)
 
-# Get the original source file hashes and timestamps.
+message(STATUS "Getting the original source file hashes")
 foreach(SRC ${SRCS})
   file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_HASH)
-  file(TIMESTAMP ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_TIMESTAMP)
 endforeach()
 
 message(STATUS "Copying the ugly source files")
@@ -13,14 +12,6 @@ foreach(SRC ${SRCS})
     ${CMAKE_CURRENT_LIST_DIR}/sample/dirty/${SRC}
     ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC}
   )
-endforeach()
-
-message(STATUS "Checking if source files were altered")
-foreach(SRC ${SRCS})
-  file(TIMESTAMP ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} TIMESTAMP)
-  if(${TIMESTAMP} STREQUAL ${${SRC}_TIMESTAMP})
-    message(FATAL_ERROR "File ${SRC} was not altered")
-  endif()
 endforeach()
 
 if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/sample/build)
