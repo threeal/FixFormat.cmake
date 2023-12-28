@@ -10,6 +10,7 @@ project(
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+include(FixFormat)
 include(MkdirRecursive)
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND BUILD_TESTING)
@@ -29,6 +30,8 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND BUILD_TESTING)
 endif()
 
 install(
-  FILES cmake/MkdirRecursive.cmake
+  FILES
+    cmake/FixFormat.cmake
+    cmake/MkdirRecursive.cmake
   DESTINATION lib/cmake
 )
