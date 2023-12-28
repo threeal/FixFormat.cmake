@@ -8,10 +8,13 @@ foreach(SRC ${SRCS})
 endforeach()
 
 # Copy the ugly source files.
-file(
-  COPY ${CMAKE_CURRENT_LIST_DIR}/sample/dirty/src
-  DESTINATION ${CMAKE_CURRENT_LIST_DIR}/sample
-)
+foreach(SRC ${SRCS})
+  file(
+    COPY_FILE
+    ${CMAKE_CURRENT_LIST_DIR}/sample/dirty/${SRC}
+    ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC}
+  )
+endforeach()
 
 # Check if the source files were altered.
 foreach(SRC ${SRCS})
