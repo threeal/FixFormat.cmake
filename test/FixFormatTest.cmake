@@ -1,9 +1,10 @@
 # List source files to check.
 set(SRCS src/fibonacci.cpp src/is_odd.cpp)
 
-# Get the original source file hashes.
+# Get the original source file hashes and timestamps.
 foreach(SRC ${SRCS})
   file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_HASH)
+  file(TIMESTAMP ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_TIMESTAMP)
 endforeach()
 
 # Copy the ugly source files.
@@ -11,6 +12,14 @@ file(
   COPY ${CMAKE_CURRENT_LIST_DIR}/sample/dirty/src
   DESTINATION ${CMAKE_CURRENT_LIST_DIR}/sample
 )
+
+# Check if the source files were altered.
+foreach(SRC ${SRCS})
+  file(TIMESTAMP ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} TIMESTAMP)
+  if(${TIMESTAMP} STREQUAL ${${SRC}_TIMESTAMP})
+    message(FATAL_ERROR "File ${SRC} was not altered")
+  endif()
+endforeach()
 
 # Removing the build directory if it exists.
 if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/sample/build)
