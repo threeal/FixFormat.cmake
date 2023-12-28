@@ -11,7 +11,6 @@ project(
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(FixFormat)
-include(MkdirRecursive)
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND BUILD_TESTING)
   enable_testing()
@@ -22,16 +21,9 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND BUILD_TESTING)
     NAME "Testing source codes formatting"
     COMMAND cmake ${ARGS} -P ${CMAKE_CURRENT_SOURCE_DIR}/test/FixFormatTest.cmake
   )
-
-  add_test(
-    NAME MkdirRecursiveTest
-    COMMAND cmake ${ARGS} -P ${CMAKE_CURRENT_SOURCE_DIR}/test/MkdirRecursiveTest.cmake
-  )
 endif()
 
 install(
-  FILES
-    cmake/FixFormat.cmake
-    cmake/MkdirRecursive.cmake
+  FILES cmake/FixFormat.cmake
   DESTINATION lib/cmake
 )
