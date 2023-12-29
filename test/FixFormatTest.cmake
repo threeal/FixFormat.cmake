@@ -1,4 +1,10 @@
-set(SRCS src/fibonacci.cpp src/is_odd.cpp)
+set(
+  SRCS
+  include/fibonacci.hpp
+  include/is_odd.hpp
+  src/fibonacci.cpp
+  src/is_odd.cpp
+)
 
 message(STATUS "Getting the original source file hashes")
 foreach(SRC ${SRCS})
