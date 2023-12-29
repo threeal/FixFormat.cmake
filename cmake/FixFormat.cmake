@@ -13,6 +13,17 @@ function(target_fix_format TARGET)
     endforeach()
   endif()
 
+  # Append header files of the target to be formatted.
+  foreach(PROP INCLUDE_DIRECTORIES INTERFACE_INCLUDE_DIRECTORIES)
+    get_target_property(TARGET_INCLUDE_DIRS ${TARGET} ${PROP})
+    if(NOT "${TARGET_INCLUDE_DIRS}" STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
+      foreach(INCLUDE_DIR ${TARGET_INCLUDE_DIRS})
+        file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*")
+        list(APPEND FILES ${HEADERS})
+      endforeach()
+    endif()
+  endforeach()
+
   if(FILES)
     # Set a lock file to prevent formatting from always running.
     get_target_property(TARGET_BINARY_DIR ${TARGET} BINARY_DIR)
