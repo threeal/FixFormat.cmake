@@ -11,4 +11,4 @@ FixFormat.cmake is a [CMake](https://cmake.org/) module that provides utility fu
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
 
-Copyright © 2023 [Alfi Maulana](https://github.com/threeal)
+Copyright © 2023-2024 [Alfi Maulana](https://github.com/threeal)
