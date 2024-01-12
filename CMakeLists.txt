@@ -25,5 +25,5 @@ endif()
 
 install(
   FILES cmake/FixFormat.cmake
-  DESTINATION lib/cmake
+  DESTINATION lib/cmake/FixFormat
 )
