@@ -23,7 +23,16 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR AND BUILD_TESTING)
   )
 endif()
 
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  FixFormatConfigVersion.cmake
+  COMPATIBILITY SameMajorVersion
+)
+
 install(
-  FILES cmake/FixFormat.cmake
-  DESTINATION lib/cmake
+  FILES
+    cmake/FixFormat.cmake
+    cmake/FixFormatConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/FixFormatConfigVersion.cmake
+  DESTINATION lib/cmake/FixFormat
 )
