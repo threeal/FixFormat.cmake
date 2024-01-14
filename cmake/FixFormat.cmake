@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Function to format source files of a specific target.
 # Arguments:
 #   - TARGET: The target for which to format the source files.
