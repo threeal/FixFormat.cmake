@@ -30,16 +30,12 @@ if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
     )
   endforeach()
 
-  if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/sample/build)
-    message(STATUS "Removing build directory")
-    file(REMOVE_RECURSE ${CMAKE_CURRENT_LIST_DIR}/sample/build)
-  endif()
-
   message(STATUS "Configuring sample project")
   execute_process(
     COMMAND ${CMAKE_COMMAND}
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
       -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+      --fresh
       ${CMAKE_CURRENT_LIST_DIR}/sample
     ERROR_VARIABLE ERR
     RESULT_VARIABLE RES
