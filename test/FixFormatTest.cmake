@@ -57,12 +57,21 @@ endfunction()
 
 if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(SRCS src/fibonacci.cpp src/is_odd.cpp)
+  check_source_codes_format(
+    SRCS
+      src/fibonacci.cpp
+      src/is_odd.cpp
+  )
 endif()
 
 if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(SRCS include/fibonacci.hpp include/is_odd.hpp)
+  check_source_codes_format(
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+  )
 endif()
 
 if(TEST_COUNT LESS_EQUAL 0)

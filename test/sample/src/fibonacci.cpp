@@ -1,4 +1,4 @@
-#include <fibonacci.hpp>
+#include <sample/fibonacci.hpp>
 
 std::vector<int> fibonacci_sequence(int n) {
   if (n <= 0) {
