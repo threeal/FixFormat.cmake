@@ -27,6 +27,19 @@ cpmaddpackage(gh:threeal/FixFormat.cmake@1.0.0)
 include(FixFormat)
 ```
 
+## Usage
+
+### Fixing Formatting on a Target
+
+To fix the source codes formatting required by a target, use the `target_fix_format` function. This function will automatically fix the formatting right before the compilation step of the target.
+
+```cmake
+add_executable(main main.cpp)
+target_include_directories(main PRIVATE include)
+
+target_fix_format(main)
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
