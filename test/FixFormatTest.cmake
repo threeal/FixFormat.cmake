@@ -5,24 +5,16 @@ endif()
 
 set(TEST_COUNT 0)
 
-if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-
-  set(
-    SRCS
-    include/fibonacci.hpp
-    include/is_odd.hpp
-    src/fibonacci.cpp
-    src/is_odd.cpp
-  )
+function(check_source_codes_format)
+  cmake_parse_arguments(ARG "" "" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
-  foreach(SRC ${SRCS})
+  foreach(SRC ${ARG_SRCS})
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_HASH)
   endforeach()
 
   message(STATUS "Copying the ugly source files")
-  foreach(SRC ${SRCS})
+  foreach(SRC ${ARG_SRCS})
     file(
       COPY_FILE
       ${CMAKE_CURRENT_LIST_DIR}/sample/dirty/${SRC}
@@ -55,12 +47,22 @@ if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
   endif()
 
   message(STATUS "Comparing the source file hashes")
-  foreach(SRC ${SRCS})
+  foreach(SRC ${ARG_SRCS})
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} HASH)
     if(NOT ${HASH} STREQUAL ${${SRC}_HASH})
       message(FATAL_ERROR "File hash of ${SRC} is different: got ${HASH}, should be ${${SRC}_HASH}")
     endif()
   endforeach()
+endfunction()
+
+if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(SRCS src/fibonacci.cpp src/is_odd.cpp)
+endif()
+
+if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(SRCS include/fibonacci.hpp include/is_odd.hpp)
 endif()
 
 if(TEST_COUNT LESS_EQUAL 0)

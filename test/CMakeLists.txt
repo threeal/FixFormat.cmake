@@ -11,6 +11,7 @@ function(add_cmake_test FILE)
 endfunction()
 
 add_cmake_test(
-    FixFormatTest.cmake
+  FixFormatTest.cmake
   "Testing source codes formatting"
+  "Testing include directories formatting"
 )
