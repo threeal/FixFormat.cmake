@@ -8,6 +8,25 @@
 FixFormat.cmake is a [CMake](https://cmake.org/) module that provides utility functions for fixing source codes formatting during your project's build process.
 This module mainly contains a `target_fix_format` function for fixing the source codes formatting required by the target before the compilation step.
 
+## Integration
+
+### Including the Script File
+
+You can integrate this module into your project by including the [FixFormat.cmake](./cmake/FixFormat.cmake) file in your project.
+
+```cmake
+include(FixFormat)
+```
+
+### Using CPM.cmake
+
+Alternatively, you can use [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to seamlessly integrate this module into your project.
+
+```cmake
+cpmaddpackage(gh:threeal/FixFormat.cmake@0.0.0)
+include(FixFormat)
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
