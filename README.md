@@ -6,6 +6,7 @@
 [![test status](https://img.shields.io/github/actions/workflow/status/threeal/FixFormat.cmake/test.yaml?branch=main&label=test&style=flat-square)](https://github.com/threeal/FixFormat.cmake/actions/workflows/test.yaml)
 
 FixFormat.cmake is a [CMake](https://cmake.org/) module that provides utility functions for fixing source codes formatting during your project's build process.
+This module mainly contains a `target_fix_format` function for fixing the source codes formatting required by the target before the compilation step.
 
 ## License
 
