@@ -37,23 +37,25 @@ if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
 
   message(STATUS "Configuring sample project")
   execute_process(
-    COMMAND
-      cmake ${CMAKE_CURRENT_LIST_DIR}/sample
-        -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+    COMMAND ${CMAKE_COMMAND}
+      -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
+      -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+      ${CMAKE_CURRENT_LIST_DIR}/sample
+    ERROR_VARIABLE ERR
     RESULT_VARIABLE RES
   )
   if(NOT ${RES} EQUAL 0)
-    message(FATAL_ERROR "Failed to configure sample project")
+    message(FATAL_ERROR "Failed to configure sample project: ${ERR}")
   endif()
 
   message(STATUS "Building sample project")
   execute_process(
-    COMMAND cmake --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
+    ERROR_VARIABLE ERR
     RESULT_VARIABLE RES
   )
   if(NOT ${RES} EQUAL 0)
-    message(FATAL_ERROR "Failed to build sample project")
+    message(FATAL_ERROR "Failed to build sample project: ${ERR}")
   endif()
 
   message(STATUS "Comparing the source file hashes")
