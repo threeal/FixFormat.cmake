@@ -13,6 +13,8 @@ function(check_source_codes_format)
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${SRC}_HASH)
   endforeach()
 
+  execute_process(COMMAND ${CMAKE_COMMAND} -E sleep 1)
+
   message(STATUS "Copying the ugly source files")
   foreach(SRC ${ARG_SRCS})
     file(
