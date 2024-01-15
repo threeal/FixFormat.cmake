@@ -16,15 +16,13 @@ function(target_fix_format TARGET)
   endif()
 
   # Append header files from include directories of the target to be formatted.
-  foreach(PROP INCLUDE_DIRECTORIES INTERFACE_INCLUDE_DIRECTORIES)
-    get_target_property(TARGET_INCLUDE_DIRS ${TARGET} ${PROP})
-    if(NOT "${TARGET_INCLUDE_DIRS}" STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
-      foreach(INCLUDE_DIR ${TARGET_INCLUDE_DIRS})
-        file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*")
-        list(APPEND FILES ${HEADERS})
-      endforeach()
-    endif()
-  endforeach()
+  get_target_property(TARGET_INCLUDE_DIRS ${TARGET} INCLUDE_DIRECTORIES)
+  if(NOT "${TARGET_INCLUDE_DIRS}" STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
+    foreach(INCLUDE_DIR ${TARGET_INCLUDE_DIRS})
+      file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*")
+      list(APPEND FILES ${HEADERS})
+    endforeach()
+  endif()
 
   # Append header files from file set of the target to be formatted.
   get_target_property(TARGET_HEADER_SET ${TARGET} HEADER_SET)
