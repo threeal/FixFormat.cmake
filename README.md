@@ -12,6 +12,11 @@ This module primarily includes a [`target_fix_format`](./cmake/FixFormat.cmake) 
 Behind the scenes, this module utilizes [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html) to format the source codes.
 To enable the formatting to be fixed before the compilation step, the module searches through all source files used by the target and creates a format target that the main target later depends on.
 
+## Requirements
+
+- CMake version 3.21 or above.
+- ClangFormat.
+
 ## Integration
 
 ### Including the Script File
