@@ -12,6 +12,7 @@ endfunction()
 
 add_cmake_test(
   FixFormatTest.cmake
-  "Testing source codes formatting"
+  "Testing sources formatting"
   "Testing include directories formatting"
+  "Testing file set headers formatting"
 )

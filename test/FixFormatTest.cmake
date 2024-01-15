@@ -6,7 +6,7 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "" "" "SRCS" ${ARGN})
+  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS" "" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -23,10 +23,14 @@ function(check_source_codes_format)
   endforeach()
 
   message(STATUS "Configuring sample project")
+  if(ARG_USE_FILE_SET_HEADERS)
+    list(APPEND CONFIGURE_ARGS -D USE_FILE_SET_HEADERS=TRUE)
+  endif()
   execute_process(
     COMMAND ${CMAKE_COMMAND}
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
       -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+      ${CONFIGURE_ARGS}
       --fresh
       ${CMAKE_CURRENT_LIST_DIR}/sample
     ERROR_VARIABLE ERR
@@ -55,7 +59,7 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-if("Testing source codes formatting" MATCHES ${TEST_MATCHES})
+if("Testing sources formatting" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     SRCS
@@ -67,6 +71,17 @@ endif()
 if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+  )
+endif()
+
+if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    USE_FILE_SET_HEADERS
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
