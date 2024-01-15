@@ -49,6 +49,11 @@ target_include_directories(main PRIVATE include)
 target_fix_format(main)
 ```
 
+### Configuring the Formatting Style
+
+Similar to ClangFormat, you can configure the formatting style by including a `.clang-format` file.
+Refer to [this documentation](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) for more information on configuring the formatting style.
+
 ## License
 
 This project is licensed under the terms of the [MIT License](./LICENSE).
