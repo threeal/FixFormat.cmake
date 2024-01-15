@@ -15,7 +15,7 @@ function(check_source_codes_format)
 
   execute_process(COMMAND ${CMAKE_COMMAND} -E sleep 1)
 
-  message(STATUS "Copying the ugly source files")
+  message(STATUS "Copying the dirty source files")
   foreach(SRC ${ARG_SRCS})
     file(
       COPY_FILE
