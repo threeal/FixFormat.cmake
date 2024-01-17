@@ -50,6 +50,12 @@ function(target_fix_format TARGET)
 
     # Mark the target to depend on the format target.
     add_dependencies(${TARGET} ${TARGET}_format)
+
+    # Mark the format all target to depend on the format target.
+    if(NOT TARGET format-all)
+      add_custom_target(format-all)
+    endif()
+    add_dependencies(format-all ${TARGET}_format)
   else()
     message(WARNING "Target `${TARGET}` does not have any source files")
   endif()

@@ -47,7 +47,7 @@ function(check_source_codes_format)
     execute_process(
       COMMAND ${CMAKE_COMMAND}
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        --target format
+        --target format-all
       ERROR_VARIABLE ERR
       RESULT_VARIABLE RES
     )
