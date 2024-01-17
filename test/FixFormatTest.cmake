@@ -108,7 +108,7 @@ endif()
 if("Testing formatting a target without build" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
-    FORMAT_TARGET sample_format
+    FORMAT_TARGET format-sample
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
