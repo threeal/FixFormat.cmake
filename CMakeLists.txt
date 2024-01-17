@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project(
   FixFormat
-  VERSION 1.0.0
+  VERSION 1.1.0
   DESCRIPTION "Fix source codes formatting in your CMake project"
   HOMEPAGE_URL https://github.com/threeal/FixFormat.cmake
   LANGUAGES NONE
