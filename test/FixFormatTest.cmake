@@ -6,7 +6,7 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS" "" "SRCS" ${ARGN})
+  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS;WITHOUT_BUILD" "" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -42,14 +42,28 @@ function(check_source_codes_format)
     message(FATAL_ERROR "Failed to configure sample project: ${ERR}")
   endif()
 
-  message(STATUS "Building sample project")
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-    ERROR_VARIABLE ERR
-    RESULT_VARIABLE RES
-  )
-  if(NOT ${RES} EQUAL 0)
-    message(FATAL_ERROR "Failed to build sample project: ${ERR}")
+  if(ARG_WITHOUT_BUILD)
+    message(STATUS "Formatting sample project")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND}
+        --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
+        --target format
+      ERROR_VARIABLE ERR
+      RESULT_VARIABLE RES
+    )
+    if(NOT ${RES} EQUAL 0)
+      message(FATAL_ERROR "Failed to format sample project: ${ERR}")
+    endif()
+  else()
+    message(STATUS "Building sample project")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
+      ERROR_VARIABLE ERR
+      RESULT_VARIABLE RES
+    )
+    if(NOT ${RES} EQUAL 0)
+      message(FATAL_ERROR "Failed to build sample project: ${ERR}")
+    endif()
   endif()
 
   message(STATUS "Comparing the source file hashes")
@@ -88,6 +102,19 @@ if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
       include/sample.hpp
+  )
+endif()
+
+if("Testing formatting without build" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    WITHOUT_BUILD
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
   )
 endif()
 
