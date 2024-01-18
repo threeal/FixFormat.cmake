@@ -7,6 +7,12 @@ include_guard(GLOBAL)
 # Arguments:
 #   - TARGET: The target for which to format the source files.
 function(target_fix_format TARGET)
+  # Skip if the format target is already exists.
+  if(TARGET format-${TARGET})
+    message(WARNING "A format target for `${TARGET}` target already exists")
+    return()
+  endif()
+
   find_program(CLANG_FORMAT_PROGRAM clang-format REQUIRED)
 
   # Append source files of the target to be formatted.
