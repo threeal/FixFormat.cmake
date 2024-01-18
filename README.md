@@ -49,6 +49,21 @@ target_include_directories(main PRIVATE include)
 target_fix_format(main)
 ```
 
+### Fixing Formatting Without Building Targets
+
+To fix the formatting of a target directly without building it, call a target named `format-` followed by the target name.
+For example, the following command will fix the formatting of the `main` target:
+
+```bash
+cmake --build build --target format-main
+```
+
+Alternatively, you can also use the `format-all` target to fix the formatting of all targets without building them.
+
+```bash
+cmake --build build --target format-all
+```
+
 ### Configuring the Formatting Style
 
 Similar to ClangFormat, you can configure the formatting style by including a `.clang-format` file.
