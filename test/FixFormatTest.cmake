@@ -6,7 +6,7 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS" "FORMAT_TARGET" "SRCS" ${ARGN})
+  cmake_parse_arguments(ARG "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS" "FORMAT_TARGET" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -25,6 +25,9 @@ function(check_source_codes_format)
   endforeach()
 
   message(STATUS "Configuring sample project")
+  if(ARG_USE_GLOBAL_FORMAT)
+    list(APPEND CONFIGURE_ARGS -D USE_GLOBAL_FORMAT=TRUE)
+  endif()
   if(ARG_USE_FILE_SET_HEADERS)
     list(APPEND CONFIGURE_ARGS -D USE_FILE_SET_HEADERS=TRUE)
   endif()
@@ -102,6 +105,19 @@ if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
       include/sample.hpp
+  )
+endif()
+
+if("Testing formatting globally" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    USE_GLOBAL_FORMAT
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
   )
 endif()
 

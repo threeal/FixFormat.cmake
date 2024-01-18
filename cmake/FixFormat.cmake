@@ -60,3 +60,11 @@ function(target_fix_format TARGET)
     message(WARNING "Target `${TARGET}` does not have any source files")
   endif()
 endfunction()
+
+# Function to format source files of all targets in the directory.
+function(add_fix_format)
+  get_directory_property(TARGETS BUILDSYSTEM_TARGETS)
+  foreach(TARGET ${TARGETS})
+    target_fix_format(${TARGET})
+  endforeach()
+endfunction()
