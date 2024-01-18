@@ -43,10 +43,20 @@ include(FixFormat)
 To fix the source codes formatting required by a target, use the `target_fix_format` function. This function will automatically fix the formatting right before the compilation step of the target.
 
 ```cmake
-add_executable(main main.cpp)
-target_include_directories(main PRIVATE include)
+add_library(foo foo.cpp)
+target_fix_format(foo)
 
+add_executable(main main.cpp)
 target_fix_format(main)
+```
+
+Instead of calling the `target_fix_format` function individually for each target, you can also call the `add_fix_format` function after declaring all targets in the directory to enable formatting for those targets.
+
+```cmake
+add_library(foo foo.cpp)
+add_executable(main main.cpp)
+
+add_fix_format()
 ```
 
 ### Fixing Formatting Without Building Targets
