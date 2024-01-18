@@ -36,7 +36,7 @@ function(target_fix_format TARGET)
   if(FILES)
     # Set a lock file to prevent formatting from always running.
     get_target_property(TARGET_BINARY_DIR ${TARGET} BINARY_DIR)
-    set(TARGET_LOCK ${TARGET_BINARY_DIR}/${TARGET}_format.lock)
+    set(TARGET_LOCK ${TARGET_BINARY_DIR}/format-${TARGET}.lock)
 
     # Add a custom target for formatting source files of the target.
     add_custom_command(
@@ -46,16 +46,16 @@ function(target_fix_format TARGET)
       DEPENDS ${FILES}
       VERBATIM
     )
-    add_custom_target(${TARGET}_format DEPENDS ${TARGET_LOCK})
+    add_custom_target(format-${TARGET} DEPENDS ${TARGET_LOCK})
 
     # Mark the target to depend on the format target.
-    add_dependencies(${TARGET} ${TARGET}_format)
+    add_dependencies(${TARGET} format-${TARGET})
 
     # Mark the format all target to depend on the format target.
     if(NOT TARGET format-all)
       add_custom_target(format-all)
     endif()
-    add_dependencies(format-all ${TARGET}_format)
+    add_dependencies(format-all format-${TARGET})
   else()
     message(WARNING "Target `${TARGET}` does not have any source files")
   endif()

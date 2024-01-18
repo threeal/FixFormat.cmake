@@ -6,7 +6,7 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS;WITHOUT_BUILD" "" "SRCS" ${ARGN})
+  cmake_parse_arguments(ARG "USE_FILE_SET_HEADERS" "FORMAT_TARGET" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -42,12 +42,12 @@ function(check_source_codes_format)
     message(FATAL_ERROR "Failed to configure sample project: ${ERR}")
   endif()
 
-  if(ARG_WITHOUT_BUILD)
+  if(ARG_FORMAT_TARGET)
     message(STATUS "Formatting sample project")
     execute_process(
       COMMAND ${CMAKE_COMMAND}
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        --target format-all
+        --target ${ARG_FORMAT_TARGET}
       ERROR_VARIABLE ERR
       RESULT_VARIABLE RES
     )
@@ -105,10 +105,23 @@ if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing formatting without build" MATCHES ${TEST_MATCHES})
+if("Testing formatting a target without build" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
-    WITHOUT_BUILD
+    FORMAT_TARGET format-sample
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
+  )
+endif()
+
+if("Testing formatting all targets without build" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    FORMAT_TARGET format-all
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp

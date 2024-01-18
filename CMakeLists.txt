@@ -26,7 +26,7 @@ if(NOT SUBPROJECT)
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(
     FixFormatConfigVersion.cmake
-    COMPATIBILITY SameMajorVersion
+    COMPATIBILITY SameMinorVersion
   )
 
   install(
