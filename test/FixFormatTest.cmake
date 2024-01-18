@@ -41,11 +41,10 @@ function(check_source_codes_format)
       ${CONFIGURE_ARGS}
       --fresh
       ${CMAKE_CURRENT_LIST_DIR}/sample
-    ERROR_VARIABLE ERR
     RESULT_VARIABLE RES
   )
   if(NOT ${RES} EQUAL 0)
-    message(FATAL_ERROR "Failed to configure sample project: ${ERR}")
+    message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
   if(ARG_FORMAT_TARGET)
@@ -54,21 +53,19 @@ function(check_source_codes_format)
       COMMAND ${CMAKE_COMMAND}
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
         --target ${ARG_FORMAT_TARGET}
-      ERROR_VARIABLE ERR
       RESULT_VARIABLE RES
     )
     if(NOT ${RES} EQUAL 0)
-      message(FATAL_ERROR "Failed to format sample project: ${ERR}")
+      message(FATAL_ERROR "Failed to format sample project")
     endif()
   else()
     message(STATUS "Building sample project")
     execute_process(
       COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-      ERROR_VARIABLE ERR
       RESULT_VARIABLE RES
     )
     if(NOT ${RES} EQUAL 0)
-      message(FATAL_ERROR "Failed to build sample project: ${ERR}")
+      message(FATAL_ERROR "Failed to build sample project")
     endif()
   endif()
 
