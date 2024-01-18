@@ -7,7 +7,7 @@
 
 
 **FixFormat.cmake** is a [CMake](https://cmake.org/) module that provides utility functions for fixing source code formatting during your project's build process.
-This module primarily includes a [`target_fix_format`](./cmake/FixFormat.cmake) function designed to fix the source code formatting required by the target before the compilation step.
+This module primarily includes `target_fix_format` and `add_fix_format` functions designed to fix the source code formatting required by the target before the compilation step.
 
 Behind the scenes, this module utilizes [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html) to format the source codes.
 To enable the formatting to be fixed before the compilation step, the module searches through all source files used by the target and creates a format target that the main target later depends on.
@@ -43,10 +43,20 @@ include(FixFormat)
 To fix the source codes formatting required by a target, use the `target_fix_format` function. This function will automatically fix the formatting right before the compilation step of the target.
 
 ```cmake
-add_executable(main main.cpp)
-target_include_directories(main PRIVATE include)
+add_library(foo foo.cpp)
+target_fix_format(foo)
 
+add_executable(main main.cpp)
 target_fix_format(main)
+```
+
+Instead of calling the `target_fix_format` function individually for each target, you can also call the `add_fix_format` function after declaring all targets in the directory to enable formatting for those targets.
+
+```cmake
+add_library(foo foo.cpp)
+add_executable(main main.cpp)
+
+add_fix_format()
 ```
 
 ### Fixing Formatting Without Building Targets
