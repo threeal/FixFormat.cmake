@@ -6,7 +6,7 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS" "FORMAT_TARGET" "SRCS" ${ARGN})
+  cmake_parse_arguments(ARG "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE" "FORMAT_TARGET" "SRCS" ${ARGN})
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -30,6 +30,9 @@ function(check_source_codes_format)
   endif()
   if(ARG_USE_FILE_SET_HEADERS)
     list(APPEND CONFIGURE_ARGS -D USE_FILE_SET_HEADERS=TRUE)
+  endif()
+  if(ARG_FORMAT_TWICE)
+    list(APPEND CONFIGURE_ARGS -D FORMAT_TWICE=TRUE)
   endif()
   execute_process(
     COMMAND ${CMAKE_COMMAND}
@@ -138,6 +141,32 @@ if("Testing formatting all targets without build" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     FORMAT_TARGET format-all
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
+  )
+endif()
+
+if("Testing formatting twice" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    FORMAT_TWICE
+    SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
+  )
+endif()
+
+if("Testing formatting globally twice" MATCHES ${TEST_MATCHES})
+  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+  check_source_codes_format(
+    USE_GLOBAL_FORMAT FORMAT_TWICE
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp

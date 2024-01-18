@@ -15,7 +15,9 @@ add_cmake_test(
   "Testing sources formatting"
   "Testing include directories formatting"
   "Testing file set headers formatting"
+  "Testing formatting globally"
   "Testing formatting a target without build"
   "Testing formatting all targets without build"
-  "Testing formatting globally"
+  "Testing formatting twice"
+  "Testing formatting globally twice"
 )
