@@ -78,6 +78,12 @@ endfunction()
 function(add_fix_format)
   get_directory_property(TARGETS BUILDSYSTEM_TARGETS)
   foreach(TARGET ${TARGETS})
+    # Skip formatting non-library and non-executable targets.
+    get_target_property(TARGET_TYPE ${TARGET} TYPE)
+    if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE EQUAL EXECUTABLE)
+      continue()
+    endif()
+
     target_fix_format(${TARGET})
   endforeach()
 endfunction()
