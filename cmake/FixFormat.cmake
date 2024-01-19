@@ -15,7 +15,7 @@ function(target_fix_format TARGET)
 
   # Skip formatting non-library and non-executable targets.
   get_target_property(TARGET_TYPE ${TARGET} TYPE)
-  if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE EQUAL EXECUTABLE)
+  if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
     message(WARNING "Cannot format `${TARGET}` target of type: ${TARGET_TYPE}")
     return()
   endif()
@@ -85,7 +85,7 @@ function(add_fix_format)
 
     # Skip formatting non-library and non-executable targets.
     get_target_property(TARGET_TYPE ${TARGET} TYPE)
-    if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE EQUAL EXECUTABLE)
+    if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
       continue()
     endif()
 
