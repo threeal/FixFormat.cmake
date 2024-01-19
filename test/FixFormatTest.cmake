@@ -6,7 +6,26 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE" "FORMAT_TARGET" "SRCS" ${ARGN})
+  cmake_parse_arguments(
+    ARG
+    "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE"
+    ""
+    "SRCS;FORMAT_TARGET"
+    ${ARGN}
+  )
+
+  # Use the default source files if not specified.
+  if(NOT ARG_SRCS)
+    set(
+      ARG_SRCS
+      include/sample/fibonacci.hpp
+      include/sample/is_odd.hpp
+      include/sample.hpp
+      src/fibonacci.cpp
+      src/is_odd.cpp
+      src/main.cpp
+    )
+  endif()
 
   message(STATUS "Getting the original source file hashes")
   foreach(SRC ${ARG_SRCS})
@@ -47,12 +66,15 @@ function(check_source_codes_format)
     message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
-  if(ARG_FORMAT_TARGET)
+  if(ARG_FORMAT_TARGETS)
     message(STATUS "Formatting sample project")
+    foreach(TARGET ${ARG_FORMAT_TARGETS})
+      list(APPEND TARGETS_ARGS --target ${TARGET})
+    endforeach()
     execute_process(
       COMMAND ${CMAKE_COMMAND}
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        --target ${ARG_FORMAT_TARGET}
+        ${TARGETS_ARGS}
       RESULT_VARIABLE RES
     )
     if(NOT ${RES} EQUAL 0)
@@ -78,16 +100,17 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-if("Testing sources formatting" MATCHES ${TEST_MATCHES})
+if("Format sources files" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     SRCS
       src/fibonacci.cpp
       src/is_odd.cpp
+      src/main.cpp
   )
 endif()
 
-if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
+if("Format include directories" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     SRCS
@@ -97,7 +120,7 @@ if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
+if("Format header files" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     USE_FILE_SET_HEADERS
@@ -108,69 +131,29 @@ if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing formatting globally" MATCHES ${TEST_MATCHES})
+if("Format all files globally" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(
-    USE_GLOBAL_FORMAT
-    SRCS
-      include/sample/fibonacci.hpp
-      include/sample/is_odd.hpp
-      include/sample.hpp
-      src/fibonacci.cpp
-      src/is_odd.cpp
-  )
+  check_source_codes_format(USE_GLOBAL_FORMAT)
 endif()
 
-if("Testing formatting a target without build" MATCHES ${TEST_MATCHES})
+if("Format all files of some targets without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(
-    FORMAT_TARGET format-sample
-    SRCS
-      include/sample/fibonacci.hpp
-      include/sample/is_odd.hpp
-      include/sample.hpp
-      src/fibonacci.cpp
-      src/is_odd.cpp
-  )
+  check_source_codes_format(FORMAT_TARGETS format-sample format-main)
 endif()
 
-if("Testing formatting all targets without build" MATCHES ${TEST_MATCHES})
+if("Format all files of all targets without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(
-    FORMAT_TARGET format-all
-    SRCS
-      include/sample/fibonacci.hpp
-      include/sample/is_odd.hpp
-      include/sample.hpp
-      src/fibonacci.cpp
-      src/is_odd.cpp
-  )
+  check_source_codes_format(FORMAT_TARGETS format-all)
 endif()
 
-if("Testing formatting twice" MATCHES ${TEST_MATCHES})
+if("Format all files twice" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(
-    FORMAT_TWICE
-    SRCS
-      include/sample/fibonacci.hpp
-      include/sample/is_odd.hpp
-      include/sample.hpp
-      src/fibonacci.cpp
-      src/is_odd.cpp
-  )
+  check_source_codes_format(FORMAT_TWICE)
 endif()
 
-if("Testing formatting globally twice" MATCHES ${TEST_MATCHES})
+if("Format all files globally twice" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(
-    USE_GLOBAL_FORMAT FORMAT_TWICE
-    SRCS
-      include/sample/fibonacci.hpp
-      include/sample/is_odd.hpp
-      include/sample.hpp
-      src/fibonacci.cpp
-      src/is_odd.cpp
-  )
+  check_source_codes_format(USE_GLOBAL_FORMAT FORMAT_TWICE)
 endif()
 
 if(TEST_COUNT LESS_EQUAL 0)
