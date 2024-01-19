@@ -15,7 +15,7 @@ function(target_fix_format TARGET)
 
   # Skip formatting non-library and non-executable targets.
   get_target_property(TARGET_TYPE ${TARGET} TYPE)
-  if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
+  if(NOT TARGET_TYPE MATCHES LIBRARY$ AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
     message(WARNING "Cannot format `${TARGET}` target of type: ${TARGET_TYPE}")
     return()
   endif()
@@ -25,7 +25,7 @@ function(target_fix_format TARGET)
   # Append source files of the target to be formatted.
   get_target_property(TARGET_SOURCE_DIR ${TARGET} SOURCE_DIR)
   get_target_property(TARGET_SOURCES ${TARGET} SOURCES)
-  if(NOT "${TARGET_SOURCES}" STREQUAL TARGET_SOURCES-NOTFOUND)
+  if(NOT TARGET_SOURCES STREQUAL TARGET_SOURCES-NOTFOUND)
     foreach(SOURCE ${TARGET_SOURCES})
       list(APPEND FILES ${TARGET_SOURCE_DIR}/${SOURCE})
     endforeach()
@@ -33,7 +33,7 @@ function(target_fix_format TARGET)
 
   # Append header files from include directories of the target to be formatted.
   get_target_property(TARGET_INCLUDE_DIRS ${TARGET} INCLUDE_DIRECTORIES)
-  if(NOT "${TARGET_INCLUDE_DIRS}" STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
+  if(NOT TARGET_INCLUDE_DIRS STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
     foreach(INCLUDE_DIR ${TARGET_INCLUDE_DIRS})
       file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*")
       list(APPEND FILES ${HEADERS})
@@ -42,7 +42,7 @@ function(target_fix_format TARGET)
 
   # Append header files from file set of the target to be formatted.
   get_target_property(TARGET_HEADER_SET ${TARGET} HEADER_SET)
-  if(NOT "${TARGET_HEADER_SET}" STREQUAL TARGET_HEADER_SET-NOTFOUND)
+  if(NOT TARGET_HEADER_SET STREQUAL TARGET_HEADER_SET-NOTFOUND)
     list(APPEND FILES ${TARGET_HEADER_SET})
   endif()
 
@@ -85,7 +85,7 @@ function(add_fix_format)
 
     # Skip formatting non-library and non-executable targets.
     get_target_property(TARGET_TYPE ${TARGET} TYPE)
-    if(NOT TARGET_TYPE MATCHES "LIBRARY$" AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
+    if(NOT TARGET_TYPE MATCHES LIBRARY$ AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
       continue()
     endif()
 
