@@ -62,7 +62,7 @@ function(check_source_codes_format)
       ${CMAKE_CURRENT_LIST_DIR}/sample
     RESULT_VARIABLE RES
   )
-  if(NOT ${RES} EQUAL 0)
+  if(NOT RES EQUAL 0)
     message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
@@ -77,7 +77,7 @@ function(check_source_codes_format)
         ${TARGETS_ARGS}
       RESULT_VARIABLE RES
     )
-    if(NOT ${RES} EQUAL 0)
+    if(NOT RES EQUAL 0)
       message(FATAL_ERROR "Failed to format sample project")
     endif()
   else()
@@ -86,7 +86,7 @@ function(check_source_codes_format)
       COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
       RESULT_VARIABLE RES
     )
-    if(NOT ${RES} EQUAL 0)
+    if(NOT RES EQUAL 0)
       message(FATAL_ERROR "Failed to build sample project")
     endif()
   endif()
@@ -94,7 +94,7 @@ function(check_source_codes_format)
   message(STATUS "Comparing the source file hashes")
   foreach(SRC ${ARG_SRCS})
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} HASH)
-    if(NOT ${HASH} STREQUAL ${${SRC}_HASH})
+    if(NOT HASH STREQUAL ${SRC}_HASH)
       message(FATAL_ERROR "File hash of ${SRC} is different: got ${HASH}, should be ${${SRC}_HASH}")
     endif()
   endforeach()
