@@ -6,7 +6,13 @@ endif()
 set(TEST_COUNT 0)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(ARG "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE" "FORMAT_TARGET" "SRCS" ${ARGN})
+  cmake_parse_arguments(
+    ARG
+    "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE"
+    ""
+    "SRCS;FORMAT_TARGET"
+    ${ARGN}
+  )
 
   # Use the default source files if not specified.
   if(NOT ARG_SRCS)
@@ -59,12 +65,15 @@ function(check_source_codes_format)
     message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
-  if(ARG_FORMAT_TARGET)
+  if(ARG_FORMAT_TARGETS)
     message(STATUS "Formatting sample project")
+    foreach(TARGET ${ARG_FORMAT_TARGETS})
+      list(APPEND TARGETS_ARGS --target ${TARGET})
+    endforeach()
     execute_process(
       COMMAND ${CMAKE_COMMAND}
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        --target ${ARG_FORMAT_TARGET}
+        ${TARGETS_ARGS}
       RESULT_VARIABLE RES
     )
     if(NOT ${RES} EQUAL 0)
@@ -127,12 +136,12 @@ endif()
 
 if("Format all files of a target without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(FORMAT_TARGET format-sample)
+  check_source_codes_format(FORMAT_TARGETS format-sample)
 endif()
 
 if("Format all files of all targets without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(FORMAT_TARGET format-all)
+  check_source_codes_format(FORMAT_TARGETS format-all)
 endif()
 
 if("Format all files twice" MATCHES ${TEST_MATCHES})
