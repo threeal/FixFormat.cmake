@@ -46,32 +46,33 @@ function(target_fix_format TARGET)
     list(APPEND FILES ${TARGET_HEADER_SET})
   endif()
 
-  if(FILES)
-    # Set a lock file to prevent formatting from always running.
-    get_target_property(TARGET_BINARY_DIR ${TARGET} BINARY_DIR)
-    set(TARGET_LOCK ${TARGET_BINARY_DIR}/format-${TARGET}.lock)
-
-    # Add a custom target for formatting source files of the target.
-    add_custom_command(
-      OUTPUT ${TARGET_LOCK}
-      COMMAND ${CLANG_FORMAT_PROGRAM} -i ${FILES}
-      COMMAND ${CMAKE_COMMAND} -E touch ${TARGET_LOCK}
-      DEPENDS ${FILES}
-      VERBATIM
-    )
-    add_custom_target(format-${TARGET} DEPENDS ${TARGET_LOCK})
-
-    # Mark the target to depend on the format target.
-    add_dependencies(${TARGET} format-${TARGET})
-
-    # Mark the format all target to depend on the format target.
-    if(NOT TARGET format-all)
-      add_custom_target(format-all)
-    endif()
-    add_dependencies(format-all format-${TARGET})
-  else()
+  if(NOT FILES)
     message(WARNING "Target `${TARGET}` does not have any source files")
+    return()
   endif()
+
+  # Set a lock file to prevent formatting from always running.
+  get_target_property(TARGET_BINARY_DIR ${TARGET} BINARY_DIR)
+  set(TARGET_LOCK ${TARGET_BINARY_DIR}/format-${TARGET}.lock)
+
+  # Add a custom target for formatting source files of the target.
+  add_custom_command(
+    OUTPUT ${TARGET_LOCK}
+    COMMAND ${CLANG_FORMAT_PROGRAM} -i ${FILES}
+    COMMAND ${CMAKE_COMMAND} -E touch ${TARGET_LOCK}
+    DEPENDS ${FILES}
+    VERBATIM
+  )
+  add_custom_target(format-${TARGET} DEPENDS ${TARGET_LOCK})
+
+  # Mark the target to depend on the format target.
+  add_dependencies(${TARGET} format-${TARGET})
+
+  # Mark the format all target to depend on the format target.
+  if(NOT TARGET format-all)
+    add_custom_target(format-all)
+  endif()
+  add_dependencies(format-all format-${TARGET})
 endfunction()
 
 # Function to format source files of all targets in the directory.
