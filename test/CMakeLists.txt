@@ -16,7 +16,7 @@ add_cmake_test(
   "Format include directories"
   "Format header files"
   "Format all files globally"
-  "Format all files of a target without building"
+  "Format all files of some targets without building"
   "Format all files of all targets without building"
   "Format all files twice"
   "Format all files globally twice"

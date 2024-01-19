@@ -23,6 +23,7 @@ function(check_source_codes_format)
       include/sample.hpp
       src/fibonacci.cpp
       src/is_odd.cpp
+      src/main.cpp
     )
   endif()
 
@@ -105,6 +106,7 @@ if("Format sources files" MATCHES ${TEST_MATCHES})
     SRCS
       src/fibonacci.cpp
       src/is_odd.cpp
+      src/main.cpp
   )
 endif()
 
@@ -134,9 +136,9 @@ if("Format all files globally" MATCHES ${TEST_MATCHES})
   check_source_codes_format(USE_GLOBAL_FORMAT)
 endif()
 
-if("Format all files of a target without building" MATCHES ${TEST_MATCHES})
+if("Format all files of some targets without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
-  check_source_codes_format(FORMAT_TARGETS format-sample)
+  check_source_codes_format(FORMAT_TARGETS format-sample format-main)
 endif()
 
 if("Format all files of all targets without building" MATCHES ${TEST_MATCHES})
