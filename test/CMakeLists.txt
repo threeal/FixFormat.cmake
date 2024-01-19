@@ -12,12 +12,12 @@ endfunction()
 
 add_cmake_test(
   FixFormatTest.cmake
-  "Testing sources formatting"
-  "Testing include directories formatting"
-  "Testing file set headers formatting"
-  "Testing formatting globally"
-  "Testing formatting a target without build"
-  "Testing formatting all targets without build"
-  "Testing formatting twice"
-  "Testing formatting globally twice"
+  "Format sources files"
+  "Format include directories"
+  "Format header files"
+  "Format all files globally"
+  "Format all files of a target without building"
+  "Format all files of all targets without building"
+  "Format all files twice"
+  "Format all files globally twice"
 )

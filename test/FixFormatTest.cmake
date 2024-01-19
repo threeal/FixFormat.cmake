@@ -90,7 +90,7 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-if("Testing sources formatting" MATCHES ${TEST_MATCHES})
+if("Format sources files" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     SRCS
@@ -99,7 +99,7 @@ if("Testing sources formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
+if("Format include directories" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     SRCS
@@ -109,7 +109,7 @@ if("Testing include directories formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
+if("Format header files" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(
     USE_FILE_SET_HEADERS
@@ -120,27 +120,27 @@ if("Testing file set headers formatting" MATCHES ${TEST_MATCHES})
   )
 endif()
 
-if("Testing formatting globally" MATCHES ${TEST_MATCHES})
+if("Format all files globally" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(USE_GLOBAL_FORMAT)
 endif()
 
-if("Testing formatting a target without build" MATCHES ${TEST_MATCHES})
+if("Format all files of a target without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(FORMAT_TARGET format-sample)
 endif()
 
-if("Testing formatting all targets without build" MATCHES ${TEST_MATCHES})
+if("Format all files of all targets without building" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(FORMAT_TARGET format-all)
 endif()
 
-if("Testing formatting twice" MATCHES ${TEST_MATCHES})
+if("Format all files twice" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(FORMAT_TWICE)
 endif()
 
-if("Testing formatting globally twice" MATCHES ${TEST_MATCHES})
+if("Format all files globally twice" MATCHES ${TEST_MATCHES})
   math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
   check_source_codes_format(USE_GLOBAL_FORMAT FORMAT_TWICE)
 endif()
