@@ -27,8 +27,6 @@ function(check_source_codes_format)
     )
   endif()
 
-  execute_process(COMMAND ${CMAKE_COMMAND} -E sleep 1)
-
   message(STATUS "Backing up the original source files")
   foreach(SRC ${ARG_SRCS})
     set(DESTINATION ${CMAKE_CURRENT_LIST_DIR}/sample/build/original/${SRC})
