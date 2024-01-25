@@ -43,17 +43,6 @@ function(check_source_codes_format)
     endif()
   endforeach()
 
-  macro(restore_source_files)
-    message(STATUS "Restoring the original source files")
-    foreach(SRC ${ARG_SRCS})
-      file(
-        COPY_FILE
-        ${CMAKE_CURRENT_LIST_DIR}/sample/build/original/${SRC}
-        ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC}
-      )
-    endforeach()
-  endmacro()
-
   message(STATUS "Copying the dirty source files")
   foreach(SRC ${ARG_SRCS})
     file(
@@ -83,7 +72,6 @@ function(check_source_codes_format)
     RESULT_VARIABLE RES
   )
   if(NOT RES EQUAL 0)
-    restore_source_files()
     message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
@@ -99,7 +87,6 @@ function(check_source_codes_format)
       RESULT_VARIABLE RES
     )
     if(NOT RES EQUAL 0)
-      restore_source_files()
       message(FATAL_ERROR "Failed to format sample project")
     endif()
   else()
@@ -109,7 +96,6 @@ function(check_source_codes_format)
       RESULT_VARIABLE RES
     )
     if(NOT RES EQUAL 0)
-      restore_source_files()
       message(FATAL_ERROR "Failed to build sample project")
     endif()
   endif()
@@ -119,12 +105,9 @@ function(check_source_codes_format)
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} SRC_HASH)
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/.backup/${SRC} BACKUP_HASH)
     if(NOT SRC_HASH STREQUAL BACKUP_HASH)
-      restore_source_files()
       message(FATAL_ERROR "File hash of ${SRC} is different: got ${SRC_HASH}, should be ${BACKUP_HASH}")
     endif()
   endforeach()
-
-  restore_source_files()
 endfunction()
 
 if("Format sources files" MATCHES ${TEST_MATCHES})
