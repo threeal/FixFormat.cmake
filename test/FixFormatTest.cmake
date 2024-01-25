@@ -10,7 +10,7 @@ function(check_source_codes_format)
     ARG
     "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE"
     ""
-    "SRCS;FORMAT_TARGET"
+    "SRCS;FORMAT_TARGETS"
     ${ARGN}
   )
 
