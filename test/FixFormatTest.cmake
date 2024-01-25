@@ -34,6 +34,27 @@ function(check_source_codes_format)
 
   execute_process(COMMAND ${CMAKE_COMMAND} -E sleep 1)
 
+  message(STATUS "Backing up the original source files")
+  foreach(SRC ${ARG_SRCS})
+    set(DESTINATION ${CMAKE_CURRENT_LIST_DIR}/sample/build/original/${SRC})
+    get_filename_component(DESTINATION_DIR ${DESTINATION} DIRECTORY)
+    if(NOT EXISTS ${DESTINATION_DIR})
+      file(MAKE_DIRECTORY ${DESTINATION_DIR})
+    endif()
+    file(COPY_FILE ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} ${DESTINATION})
+  endforeach()
+
+  macro(restore_source_files)
+    message(STATUS "Restoring the original source files")
+    foreach(SRC ${ARG_SRCS})
+      file(
+        COPY_FILE
+        ${CMAKE_CURRENT_LIST_DIR}/sample/build/original/${SRC}
+        ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC}
+      )
+    endforeach()
+  endmacro()
+
   message(STATUS "Copying the dirty source files")
   foreach(SRC ${ARG_SRCS})
     file(
@@ -63,6 +84,7 @@ function(check_source_codes_format)
     RESULT_VARIABLE RES
   )
   if(NOT RES EQUAL 0)
+    restore_source_files()
     message(FATAL_ERROR "Failed to configure sample project")
   endif()
 
@@ -78,6 +100,7 @@ function(check_source_codes_format)
       RESULT_VARIABLE RES
     )
     if(NOT RES EQUAL 0)
+      restore_source_files()
       message(FATAL_ERROR "Failed to format sample project")
     endif()
   else()
@@ -87,6 +110,7 @@ function(check_source_codes_format)
       RESULT_VARIABLE RES
     )
     if(NOT RES EQUAL 0)
+      restore_source_files()
       message(FATAL_ERROR "Failed to build sample project")
     endif()
   endif()
@@ -95,9 +119,12 @@ function(check_source_codes_format)
   foreach(SRC ${ARG_SRCS})
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} HASH)
     if(NOT HASH STREQUAL ${SRC}_HASH)
+      restore_source_files()
       message(FATAL_ERROR "File hash of ${SRC} is different: got ${HASH}, should be ${${SRC}_HASH}")
     endif()
   endforeach()
+
+  restore_source_files()
 endfunction()
 
 if("Format sources files" MATCHES ${TEST_MATCHES})
