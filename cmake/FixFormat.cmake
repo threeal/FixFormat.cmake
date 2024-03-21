@@ -20,7 +20,11 @@ function(target_fix_format TARGET)
     return()
   endif()
 
-  find_program(CLANG_FORMAT_PROGRAM clang-format REQUIRED)
+  find_program(CLANG_FORMAT_PROGRAM clang-format)
+  if(CLANG_FORMAT_PROGRAM STREQUAL CLANG_FORMAT_PROGRAM-NOTFOUND)
+    message(WARNING "Cannot find the `clang-format` program required for formatting the `${TARGET}` target")
+    return()
+  endif()
 
   # Append source files of the target to be formatted.
   get_target_property(TARGET_SOURCE_DIR ${TARGET} SOURCE_DIR)
