@@ -1,11 +1,5 @@
 # FixFormat.cmake
 
-[![version](https://img.shields.io/github/v/release/threeal/FixFormat.cmake?style=flat-square)](https://github.com/threeal/FixFormat.cmake/releases)
-[![license](https://img.shields.io/github/license/threeal/FixFormat.cmake?style=flat-square)](./LICENSE)
-[![build status](https://img.shields.io/github/actions/workflow/status/threeal/FixFormat.cmake/build.yaml?branch=main&style=flat-square)](https://github.com/threeal/FixFormat.cmake/actions/workflows/build.yaml)
-[![test status](https://img.shields.io/github/actions/workflow/status/threeal/FixFormat.cmake/test.yaml?branch=main&label=test&style=flat-square)](https://github.com/threeal/FixFormat.cmake/actions/workflows/test.yaml)
-
-
 **FixFormat.cmake** is a [CMake](https://cmake.org/) module that provides utility functions for fixing source code formatting during your project's build process.
 This module primarily includes `target_fix_format` and `add_fix_format` functions designed to fix the source code formatting required by the target before the compilation step.
 
