@@ -1,10 +1,3 @@
-# Matches everything if not defined
-if(NOT TEST_MATCHES)
-  set(TEST_MATCHES ".*")
-endif()
-
-set(TEST_COUNT 0)
-
 function(check_source_codes_format)
   cmake_parse_arguments(
     ARG
@@ -110,28 +103,25 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-if("Format sources files" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_sources_files)
   check_source_codes_format(
     SRCS
       src/fibonacci.cpp
       src/is_odd.cpp
       src/main.cpp
   )
-endif()
+endfunction()
 
-if("Format include directories" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_include_directories)
   check_source_codes_format(
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
       include/sample.hpp
   )
-endif()
+endfunction()
 
-if("Format header files" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_header_files)
   check_source_codes_format(
     USE_FILE_SET_HEADERS
     SRCS
@@ -139,33 +129,32 @@ if("Format header files" MATCHES ${TEST_MATCHES})
       include/sample/is_odd.hpp
       include/sample.hpp
   )
-endif()
+endfunction()
 
-if("Format all files globally" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_all_files_globally)
   check_source_codes_format(USE_GLOBAL_FORMAT)
-endif()
+endfunction()
 
-if("Format all files of some targets without building" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_all_files_of_some_targets_without_building)
   check_source_codes_format(FORMAT_TARGETS format-sample format-main)
-endif()
+endfunction()
 
-if("Format all files of all targets without building" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_all_files_of_all_targets_without_building)
   check_source_codes_format(FORMAT_TARGETS format-all)
-endif()
+endfunction()
 
-if("Format all files twice" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_all_files_twice)
   check_source_codes_format(FORMAT_TWICE)
-endif()
+endfunction()
 
-if("Format all files globally twice" MATCHES ${TEST_MATCHES})
-  math(EXPR TEST_COUNT "${TEST_COUNT} + 1")
+function(test_format_all_files_globally_twice)
   check_source_codes_format(USE_GLOBAL_FORMAT FORMAT_TWICE)
+endfunction()
+
+if(NOT DEFINED TEST_COMMAND)
+  message(FATAL_ERROR "The 'TEST_COMMAND' variable should be defined")
+elseif(NOT COMMAND test_${TEST_COMMAND})
+  message(FATAL_ERROR "Unable to find a command named 'test_${TEST_COMMAND}'")
 endif()
 
-if(TEST_COUNT LESS_EQUAL 0)
-  message(FATAL_ERROR "Nothing to test with: ${TEST_MATCHES}")
-endif()
+cmake_language(CALL test_${TEST_COMMAND})
