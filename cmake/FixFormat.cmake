@@ -14,7 +14,7 @@ function(target_fix_format TARGET)
   endif()
 
   # Skip formatting non-library and non-executable targets.
-  get_target_property(TARGET_TYPE ${TARGET} TYPE)
+  get_target_property(TARGET_TYPE "${TARGET}" TYPE)
   if(NOT TARGET_TYPE MATCHES LIBRARY$ AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
     message(WARNING "Cannot format `${TARGET}` target of type: ${TARGET_TYPE}")
     return()
@@ -27,8 +27,8 @@ function(target_fix_format TARGET)
   endif()
 
   # Append source files of the target to be formatted.
-  get_target_property(TARGET_SOURCE_DIR ${TARGET} SOURCE_DIR)
-  get_target_property(TARGET_SOURCES ${TARGET} SOURCES)
+  get_target_property(TARGET_SOURCE_DIR "${TARGET}" SOURCE_DIR)
+  get_target_property(TARGET_SOURCES "${TARGET}" SOURCES)
   if(NOT TARGET_SOURCES STREQUAL TARGET_SOURCES-NOTFOUND)
     foreach(SOURCE ${TARGET_SOURCES})
       list(APPEND FILES ${TARGET_SOURCE_DIR}/${SOURCE})
@@ -36,7 +36,7 @@ function(target_fix_format TARGET)
   endif()
 
   # Append header files from include directories of the target to be formatted.
-  get_target_property(TARGET_INCLUDE_DIRS ${TARGET} INCLUDE_DIRECTORIES)
+  get_target_property(TARGET_INCLUDE_DIRS "${TARGET}" INCLUDE_DIRECTORIES)
   if(NOT TARGET_INCLUDE_DIRS STREQUAL TARGET_INCLUDE_DIRS-NOTFOUND)
     foreach(INCLUDE_DIR ${TARGET_INCLUDE_DIRS})
       file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${INCLUDE_DIR}/*")
@@ -45,7 +45,7 @@ function(target_fix_format TARGET)
   endif()
 
   # Append header files from file set of the target to be formatted.
-  get_target_property(TARGET_HEADER_SET ${TARGET} HEADER_SET)
+  get_target_property(TARGET_HEADER_SET "${TARGET}" HEADER_SET)
   if(NOT TARGET_HEADER_SET STREQUAL TARGET_HEADER_SET-NOTFOUND)
     list(APPEND FILES ${TARGET_HEADER_SET})
   endif()
@@ -56,21 +56,21 @@ function(target_fix_format TARGET)
   endif()
 
   # Set a lock file to prevent formatting from always running.
-  get_target_property(TARGET_BINARY_DIR ${TARGET} BINARY_DIR)
+  get_target_property(TARGET_BINARY_DIR "${TARGET}" BINARY_DIR)
   set(TARGET_LOCK ${TARGET_BINARY_DIR}/format-${TARGET}.lock)
 
   # Add a custom target for formatting source files of the target.
   add_custom_command(
-    OUTPUT ${TARGET_LOCK}
-    COMMAND ${CLANG_FORMAT_PROGRAM} -i ${FILES}
-    COMMAND ${CMAKE_COMMAND} -E touch ${TARGET_LOCK}
+    OUTPUT "${TARGET_LOCK}"
+    COMMAND "${CLANG_FORMAT_PROGRAM}" -i ${FILES}
+    COMMAND "${CMAKE_COMMAND}" -E touch "${TARGET_LOCK}"
     DEPENDS ${FILES}
     VERBATIM
   )
-  add_custom_target(format-${TARGET} DEPENDS ${TARGET_LOCK})
+  add_custom_target(format-${TARGET} DEPENDS "${TARGET_LOCK}")
 
   # Mark the target to depend on the format target.
-  add_dependencies(${TARGET} format-${TARGET})
+  add_dependencies("${TARGET}" format-${TARGET})
 
   # Mark the format all target to depend on the format target.
   if(NOT TARGET format-all)
@@ -89,11 +89,11 @@ function(add_fix_format)
     endif()
 
     # Skip formatting non-library and non-executable targets.
-    get_target_property(TARGET_TYPE ${TARGET} TYPE)
+    get_target_property(TARGET_TYPE "${TARGET}" TYPE)
     if(NOT TARGET_TYPE MATCHES LIBRARY$ AND NOT TARGET_TYPE STREQUAL EXECUTABLE)
       continue()
     endif()
 
-    target_fix_format(${TARGET})
+    target_fix_format("${TARGET}")
   endforeach()
 endfunction()
