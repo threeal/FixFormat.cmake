@@ -24,15 +24,15 @@ function(check_source_codes_format)
   foreach(SRC ${ARG_SRCS})
     set(SRC_PATH ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC})
     set(BACKUP_PATH ${CMAKE_CURRENT_LIST_DIR}/sample/.backup/${SRC})
-    if(EXISTS ${BACKUP_PATH})
-      file(COPY_FILE ${BACKUP_PATH} ${SRC_PATH})
+    if(EXISTS "${BACKUP_PATH}")
+      file(COPY_FILE "${BACKUP_PATH}" "${SRC_PATH}")
     else()
       message(STATUS "Backing up the `${SRC}` file instead")
-      get_filename_component(BACKUP_DIR ${BACKUP_PATH} DIRECTORY)
-      if(NOT EXISTS ${BACKUP_DIR})
-        file(MAKE_DIRECTORY ${BACKUP_DIR})
+      get_filename_component(BACKUP_DIR "${BACKUP_PATH}" DIRECTORY)
+      if(NOT EXISTS "${BACKUP_DIR}")
+        file(MAKE_DIRECTORY "${BACKUP_DIR}")
       endif()
-      file(COPY_FILE ${SRC_PATH} ${BACKUP_PATH})
+      file(COPY_FILE "${SRC_PATH}" "${BACKUP_PATH}")
     endif()
   endforeach()
 
@@ -56,7 +56,7 @@ function(check_source_codes_format)
     list(APPEND CONFIGURE_ARGS -D FORMAT_TWICE=TRUE)
   endif()
   execute_process(
-    COMMAND ${CMAKE_COMMAND}
+    COMMAND "${CMAKE_COMMAND}"
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
       -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
       ${CONFIGURE_ARGS}
@@ -71,10 +71,10 @@ function(check_source_codes_format)
   if(ARG_FORMAT_TARGETS)
     message(STATUS "Formatting sample project")
     foreach(TARGET ${ARG_FORMAT_TARGETS})
-      list(APPEND TARGETS_ARGS --target ${TARGET})
+      list(APPEND TARGETS_ARGS --target "${TARGET}")
     endforeach()
     execute_process(
-      COMMAND ${CMAKE_COMMAND}
+      COMMAND "${CMAKE_COMMAND}"
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
         ${TARGETS_ARGS}
       RESULT_VARIABLE RES
@@ -85,7 +85,7 @@ function(check_source_codes_format)
   else()
     message(STATUS "Building sample project")
     execute_process(
-      COMMAND ${CMAKE_COMMAND} --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
+      COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
       RESULT_VARIABLE RES
     )
     if(NOT RES EQUAL 0)
