@@ -103,7 +103,7 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-function(test_format_sources_files)
+function("Format sources files")
   check_source_codes_format(
     SRCS
       src/fibonacci.cpp
@@ -112,7 +112,7 @@ function(test_format_sources_files)
   )
 endfunction()
 
-function(test_format_include_directories)
+function("Format include directories")
   check_source_codes_format(
     SRCS
       include/sample/fibonacci.hpp
@@ -121,7 +121,7 @@ function(test_format_include_directories)
   )
 endfunction()
 
-function(test_format_header_files)
+function("Format header files")
   check_source_codes_format(
     USE_FILE_SET_HEADERS
     SRCS
@@ -131,30 +131,30 @@ function(test_format_header_files)
   )
 endfunction()
 
-function(test_format_all_files_globally)
+function("Format all files globally")
   check_source_codes_format(USE_GLOBAL_FORMAT)
 endfunction()
 
-function(test_format_all_files_of_some_targets_without_building)
+function("Format all files of some targets without building")
   check_source_codes_format(FORMAT_TARGETS format-sample format-main)
 endfunction()
 
-function(test_format_all_files_of_all_targets_without_building)
+function("Format all files of all targets without building")
   check_source_codes_format(FORMAT_TARGETS format-all)
 endfunction()
 
-function(test_format_all_files_twice)
+function("Format all files twice")
   check_source_codes_format(FORMAT_TWICE)
 endfunction()
 
-function(test_format_all_files_globally_twice)
+function("Format all files globally twice")
   check_source_codes_format(USE_GLOBAL_FORMAT FORMAT_TWICE)
 endfunction()
 
 if(NOT DEFINED TEST_COMMAND)
   message(FATAL_ERROR "The 'TEST_COMMAND' variable should be defined")
-elseif(NOT COMMAND test_${TEST_COMMAND})
-  message(FATAL_ERROR "Unable to find a command named 'test_${TEST_COMMAND}'")
+elseif(NOT COMMAND "${TEST_COMMAND}")
+  message(FATAL_ERROR "Unable to find a command named '${TEST_COMMAND}'")
 endif()
 
-cmake_language(CALL test_${TEST_COMMAND})
+cmake_language(CALL "${TEST_COMMAND}")
