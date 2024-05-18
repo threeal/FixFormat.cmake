@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.5)
+
 function(check_source_codes_format)
   cmake_parse_arguments(
     ARG
