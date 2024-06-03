@@ -1,13 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
 function(check_source_codes_format)
-  cmake_parse_arguments(
-    ARG
-    "USE_GLOBAL_FORMAT;USE_FILE_SET_HEADERS;FORMAT_TWICE"
-    ""
-    "SRCS;FORMAT_TARGETS"
-    ${ARGN}
-  )
+  set(OPTIONS USE_GLOBAL_FORMAT USE_FILE_SET_HEADERS FORMAT_TWICE)
+  cmake_parse_arguments(PARSE_ARGV 0 ARG "${OPTIONS}" "" "SRCS;FORMAT_TARGETS")
 
   # Use the default source files if not specified.
   if(NOT ARG_SRCS)
