@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
+file(
+  DOWNLOAD https://threeal.github.io/assertion-cmake/v0.2.0
+    ${CMAKE_BINARY_DIR}/Assertion.cmake
+  EXPECTED_MD5 4ee0e5217b07442d1a31c46e78bb5fac)
+include(${CMAKE_BINARY_DIR}/Assertion.cmake)
+
 function(check_source_codes_format)
   set(OPTIONS USE_GLOBAL_FORMAT USE_FILE_SET_HEADERS FORMAT_TWICE)
   cmake_parse_arguments(PARSE_ARGV 0 ARG "${OPTIONS}" "" "SRCS;FORMAT_TARGETS")
@@ -52,51 +58,37 @@ function(check_source_codes_format)
   if(ARG_FORMAT_TWICE)
     list(APPEND CONFIGURE_ARGS -D FORMAT_TWICE=TRUE)
   endif()
-  execute_process(
+  assert_execute_process(
     COMMAND "${CMAKE_COMMAND}"
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
       -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
       ${CONFIGURE_ARGS}
       --fresh
       ${CMAKE_CURRENT_LIST_DIR}/sample
-    RESULT_VARIABLE RES
   )
-  if(NOT RES EQUAL 0)
-    message(FATAL_ERROR "Failed to configure sample project")
-  endif()
 
   if(ARG_FORMAT_TARGETS)
     message(STATUS "Formatting sample project")
     foreach(TARGET ${ARG_FORMAT_TARGETS})
       list(APPEND TARGETS_ARGS --target "${TARGET}")
     endforeach()
-    execute_process(
+    assert_execute_process(
       COMMAND "${CMAKE_COMMAND}"
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
         ${TARGETS_ARGS}
-      RESULT_VARIABLE RES
     )
-    if(NOT RES EQUAL 0)
-      message(FATAL_ERROR "Failed to format sample project")
-    endif()
   else()
     message(STATUS "Building sample project")
-    execute_process(
+    assert_execute_process(
       COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-      RESULT_VARIABLE RES
     )
-    if(NOT RES EQUAL 0)
-      message(FATAL_ERROR "Failed to build sample project")
-    endif()
   endif()
 
   message(STATUS "Comparing the source file hashes")
   foreach(SRC ${ARG_SRCS})
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/${SRC} SRC_HASH)
     file(MD5 ${CMAKE_CURRENT_LIST_DIR}/sample/.backup/${SRC} BACKUP_HASH)
-    if(NOT SRC_HASH STREQUAL BACKUP_HASH)
-      message(FATAL_ERROR "File hash of ${SRC} is different: got ${SRC_HASH}, should be ${BACKUP_HASH}")
-    endif()
+    assert(SRC_HASH STREQUAL BACKUP_HASH)
   endforeach()
 endfunction()
 
