@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(
-  DOWNLOAD https://threeal.github.io/assertion-cmake/v0.2.0
+  DOWNLOAD https://github.com/threeal/assertion-cmake/releases/download/v0.3.0/Assertion.cmake
     ${CMAKE_BINARY_DIR}/Assertion.cmake
-  EXPECTED_MD5 4ee0e5217b07442d1a31c46e78bb5fac)
+  EXPECTED_MD5 851f49c10934d715df5d0b59c8b8c72a)
 include(${CMAKE_BINARY_DIR}/Assertion.cmake)
 
 function(check_source_codes_format)
@@ -59,13 +59,12 @@ function(check_source_codes_format)
     list(APPEND CONFIGURE_ARGS -D FORMAT_TWICE=TRUE)
   endif()
   assert_execute_process(
-    COMMAND "${CMAKE_COMMAND}"
+    "${CMAKE_COMMAND}"
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
       -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
       ${CONFIGURE_ARGS}
       --fresh
-      ${CMAKE_CURRENT_LIST_DIR}/sample
-  )
+      ${CMAKE_CURRENT_LIST_DIR}/sample)
 
   if(ARG_FORMAT_TARGETS)
     message(STATUS "Formatting sample project")
@@ -73,15 +72,13 @@ function(check_source_codes_format)
       list(APPEND TARGETS_ARGS --target "${TARGET}")
     endforeach()
     assert_execute_process(
-      COMMAND "${CMAKE_COMMAND}"
+      "${CMAKE_COMMAND}"
         --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-        ${TARGETS_ARGS}
-    )
+        ${TARGETS_ARGS})
   else()
     message(STATUS "Building sample project")
     assert_execute_process(
-      COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_CURRENT_LIST_DIR}/sample/build
-    )
+      "${CMAKE_COMMAND}" --build ${CMAKE_CURRENT_LIST_DIR}/sample/build)
   endif()
 
   message(STATUS "Comparing the source file hashes")
