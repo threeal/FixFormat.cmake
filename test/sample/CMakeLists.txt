@@ -4,7 +4,6 @@ project(Sample LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 find_package(FixFormat REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../../cmake)
-include(FixFormat)
 
 add_library(sample src/fibonacci.cpp src/is_odd.cpp)
 
