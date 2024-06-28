@@ -61,7 +61,6 @@ function(check_source_codes_format)
   assert_execute_process(
     "${CMAKE_COMMAND}"
       -B ${CMAKE_CURRENT_LIST_DIR}/sample/build
-      -D CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
       ${CONFIGURE_ARGS}
       --fresh
       ${CMAKE_CURRENT_LIST_DIR}/sample)

@@ -27,7 +27,6 @@ Alternatively, you can use [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) t
 
 ```cmake
 cpmaddpackage(gh:threeal/FixFormat.cmake@1.1.0)
-include(FixFormat)
 ```
 
 ## Usage
