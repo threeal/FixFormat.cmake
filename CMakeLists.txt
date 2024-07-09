@@ -8,12 +8,13 @@ project(
   LANGUAGES NONE
 )
 
+option(FIX_FORMAT_ENABLE_TESTS "Enable test targets.")
 option(FIX_FORMAT_ENABLE_INSTALL "Enable install targets."
   "${PROJECT_IS_TOP_LEVEL}")
 
 include(cmake/FixFormat.cmake)
 
-if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+if(FIX_FORMAT_ENABLE_TESTS)
   enable_testing()
   add_subdirectory(test)
 endif()
