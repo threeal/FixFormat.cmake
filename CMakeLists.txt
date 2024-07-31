@@ -16,7 +16,11 @@ include(cmake/FixFormat.cmake)
 
 if(FIX_FORMAT_ENABLE_TESTS)
   enable_testing()
-  add_subdirectory(test)
+
+  add_test(
+    NAME fix_format.cmake
+    COMMAND "${CMAKE_COMMAND}"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/test/fix_format.cmake)
 endif()
 
 if(FIX_FORMAT_ENABLE_INSTALL)
