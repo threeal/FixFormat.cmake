@@ -88,25 +88,25 @@ function(check_source_codes_format)
   endforeach()
 endfunction()
 
-function("Format sources files")
+section("it should format sources files")
   check_source_codes_format(
     SRCS
       src/fibonacci.cpp
       src/is_odd.cpp
       src/main.cpp
   )
-endfunction()
+endsection()
 
-function("Format include directories")
+section("it should format include directories")
   check_source_codes_format(
     SRCS
       include/sample/fibonacci.hpp
       include/sample/is_odd.hpp
       include/sample.hpp
   )
-endfunction()
+endsection()
 
-function("Format header files")
+section("it should format header files")
   check_source_codes_format(
     USE_FILE_SET_HEADERS
     SRCS
@@ -114,26 +114,24 @@ function("Format header files")
       include/sample/is_odd.hpp
       include/sample.hpp
   )
-endfunction()
+endsection()
 
-function("Format all files globally")
+section("it should format all files globally")
   check_source_codes_format(USE_GLOBAL_FORMAT)
-endfunction()
+endsection()
 
-function("Format all files of some targets without building")
+section("it should format all files of some targets without building")
   check_source_codes_format(FORMAT_TARGETS format-sample format-main)
-endfunction()
+endsection()
 
-function("Format all files of all targets without building")
+section("it should format all files of all targets without building")
   check_source_codes_format(FORMAT_TARGETS format-all)
-endfunction()
+endsection()
 
-function("Format all files twice")
+section("it should format all files twice")
   check_source_codes_format(FORMAT_TWICE)
-endfunction()
+endsection()
 
-function("Format all files globally twice")
+section("it should format all files globally twice")
   check_source_codes_format(USE_GLOBAL_FORMAT FORMAT_TWICE)
-endfunction()
-
-cmake_language(CALL "${TEST_COMMAND}")
+endsection()
