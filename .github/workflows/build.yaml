@@ -15,10 +15,10 @@ jobs:
       - name: Configure Project
         run: cmake --preset default
 
-      - name: Install Project
-        run: cmake --install build --prefix install
+      - name: Package Project
+        run: cpack --preset default
 
       - name: Upload Project as Artifact
         uses: actions/upload-artifact@v4.4.3
         with:
-          path: install
+          path: build/FixFormat.tar.gz

@@ -41,4 +41,7 @@ if(FIX_FORMAT_ENABLE_INSTALL)
       ${CMAKE_CURRENT_BINARY_DIR}/FixFormatConfigVersion.cmake
     DESTINATION lib/cmake/FixFormat
   )
+
+  set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}")
+  include(CPack)
 endif()
