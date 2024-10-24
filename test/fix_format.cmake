@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.21)
+
+include(Assertion)
+
 function(check_source_codes_format)
   set(OPTIONS USE_GLOBAL_FORMAT USE_FILE_SET_HEADERS FORMAT_TWICE)
   cmake_parse_arguments(PARSE_ARGV 0 ARG "${OPTIONS}" "" "SRCS;FORMAT_TARGETS")
