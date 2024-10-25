@@ -12,7 +12,10 @@ option(FIX_FORMAT_ENABLE_TESTS "Enable test targets.")
 option(FIX_FORMAT_ENABLE_INSTALL "Enable install targets."
   "${PROJECT_IS_TOP_LEVEL}")
 
-include(cmake/FixFormat.cmake)
+list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# Include the main module.
+include(FixFormat)
 
 if(FIX_FORMAT_ENABLE_TESTS)
   enable_testing()
@@ -29,7 +32,8 @@ endif()
 
 if(FIX_FORMAT_ENABLE_INSTALL)
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/cmake/FixFormatConfig.cmake
-    "include(\${CMAKE_CURRENT_LIST_DIR}/FixFormat.cmake)\n")
+    "list(PREPEND CMAKE_MODULE_PATH \${CMAKE_CURRENT_LIST_DIR})\n"
+    "include(FixFormat)\n")
 
   include(CMakePackageConfigHelpers)
   write_basic_package_version_file(cmake/FixFormatConfigVersion.cmake
