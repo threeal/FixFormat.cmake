@@ -26,7 +26,7 @@ include(FixFormat)
 Alternatively, you can use [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to seamlessly integrate this module into your project.
 
 ```cmake
-cpmaddpackage(gh:threeal/FixFormat.cmake@1.1.0)
+cpmaddpackage(gh:threeal/FixFormat.cmake@1.2.0)
 ```
 
 ## Usage
