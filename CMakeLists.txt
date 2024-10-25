@@ -28,19 +28,18 @@ if(FIX_FORMAT_ENABLE_TESTS)
 endif()
 
 if(FIX_FORMAT_ENABLE_INSTALL)
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/cmake/FixFormatConfig.cmake
+    "include(\${CMAKE_CURRENT_LIST_DIR}/FixFormat.cmake)\n")
+
   include(CMakePackageConfigHelpers)
-  write_basic_package_version_file(
-    FixFormatConfigVersion.cmake
-    COMPATIBILITY SameMinorVersion
-  )
+  write_basic_package_version_file(cmake/FixFormatConfigVersion.cmake
+    COMPATIBILITY SameMajorVersion ARCH_INDEPENDENT)
 
   install(
-    FILES
-      cmake/FixFormat.cmake
-      cmake/FixFormatConfig.cmake
-      ${CMAKE_CURRENT_BINARY_DIR}/FixFormatConfigVersion.cmake
-    DESTINATION lib/cmake/FixFormat
-  )
+    FILES cmake/FixFormat.cmake
+      ${CMAKE_CURRENT_BINARY_DIR}/cmake/FixFormatConfig.cmake
+      ${CMAKE_CURRENT_BINARY_DIR}/cmake/FixFormatConfigVersion.cmake
+    DESTINATION lib/cmake/FixFormat)
 
   set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}")
   include(CPack)
