@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 project(Sample LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 
-find_package(FixFormat REQUIRED PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../../cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/FixFormat.cmake)
 
 add_library(sample src/fibonacci.cpp src/is_odd.cpp)
 

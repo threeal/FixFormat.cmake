@@ -20,8 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-include_guard(GLOBAL)
-
 # Function to format source files of a specific target.
 # Arguments:
 #   - TARGET: The target for which to format the source files.
@@ -84,8 +82,7 @@ function(target_fix_format TARGET)
     COMMAND "${CLANG_FORMAT_PROGRAM}" -i ${FILES}
     COMMAND "${CMAKE_COMMAND}" -E touch "${TARGET_LOCK}"
     DEPENDS ${FILES}
-    VERBATIM
-  )
+    VERBATIM)
   add_custom_target(format-${TARGET} DEPENDS "${TARGET_LOCK}")
 
   # Mark the target to depend on the format target.

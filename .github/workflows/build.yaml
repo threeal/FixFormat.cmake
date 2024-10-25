@@ -9,7 +9,7 @@ jobs:
     name: Build Project
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
+      - name: Checkout Project
         uses: actions/checkout@v4.2.1
 
       - name: Configure Project
@@ -18,7 +18,9 @@ jobs:
       - name: Package Project
         run: cpack --preset default
 
-      - name: Upload Project as Artifact
+      - name: Upload Project
         uses: actions/upload-artifact@v4.4.3
         with:
           path: build/FixFormat.tar.gz
+          if-no-files-found: error
+          overwrite: true
