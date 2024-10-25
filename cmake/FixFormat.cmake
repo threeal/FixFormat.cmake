@@ -20,8 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-include_guard(GLOBAL)
-
 # Function to format source files of a specific target.
 # Arguments:
 #   - TARGET: The target for which to format the source files.
