@@ -84,8 +84,7 @@ function(target_fix_format TARGET)
     COMMAND "${CLANG_FORMAT_PROGRAM}" -i ${FILES}
     COMMAND "${CMAKE_COMMAND}" -E touch "${TARGET_LOCK}"
     DEPENDS ${FILES}
-    VERBATIM
-  )
+    VERBATIM)
   add_custom_target(format-${TARGET} DEPENDS "${TARGET_LOCK}")
 
   # Mark the target to depend on the format target.

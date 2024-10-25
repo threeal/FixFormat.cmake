@@ -5,12 +5,11 @@ project(
   VERSION 1.1.0
   DESCRIPTION "Fix source codes formatting in your CMake project"
   HOMEPAGE_URL https://github.com/threeal/FixFormat.cmake
-  LANGUAGES NONE
-)
+  LANGUAGES NONE)
 
 option(FIX_FORMAT_ENABLE_TESTS "Enable test targets.")
-option(FIX_FORMAT_ENABLE_INSTALL "Enable install targets."
-  "${PROJECT_IS_TOP_LEVEL}")
+option(FIX_FORMAT_ENABLE_INSTALL
+  "Enable install targets." "${PROJECT_IS_TOP_LEVEL}")
 
 list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
